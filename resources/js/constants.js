@@ -13,10 +13,12 @@ export const PROFILE = {
     email: 'eduardofrotati@gmail.com',
     phone: '(86) 9 8178-1184',
     linkedin: 'https://www.linkedin.com/in/eduardofrota-5b1b1724a',
+    github: 'https://github.com/srfrota',
     resume: '/curriculo.pdf',
 };
 
 export const LINKS = [
+    { label: 'GitHub', href: PROFILE.github },
     { label: 'LinkedIn', href: PROFILE.linkedin },
     { label: 'E-mail', href: `mailto:${PROFILE.email}` },
     { label: 'Currículo ↓', href: PROFILE.resume, download: true },

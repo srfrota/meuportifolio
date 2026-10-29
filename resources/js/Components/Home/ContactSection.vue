@@ -5,6 +5,7 @@ import { PROFILE } from '@/constants';
 const INFO = [
     { label: 'E-mail', value: PROFILE.email, href: `mailto:${PROFILE.email}` },
     { label: 'Telefone', value: PROFILE.phone, href: `tel:+5586981781184` },
+    { label: 'GitHub', value: 'github.com/srfrota', href: PROFILE.github },
     { label: 'Localização', value: PROFILE.location },
     { label: 'Disponibilidade', value: 'Aberto a oportunidades' },
 ];

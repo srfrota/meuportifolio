@@ -2,6 +2,7 @@
 import { PROFILE } from '@/constants';
 
 const SOCIALS = [
+    { label: 'GitHub', href: PROFILE.github },
     { label: 'LinkedIn', href: PROFILE.linkedin },
     { label: 'E-mail', href: `mailto:${PROFILE.email}` },
     { label: 'Currículo', href: PROFILE.resume, download: true },
