@@ -1,58 +1,182 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Portfólio — Eduardo Frota
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Portfólio pessoal de página única, construído com **Laravel + Inertia.js + Vue 3**.
+O Laravel serve a aplicação e o Inertia renderiza o componente Vue `Home`, que reúne
+todas as seções do currículo.
 
-## About Laravel
+**Site:** analista de dados e desenvolvedor full stack — Luís Correia, PI.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Camada | Tecnologia |
+| --- | --- |
+| Backend | PHP 8.3+, Laravel 13 |
+| Ponte | Inertia.js 2 (`inertiajs/inertia-laravel`) |
+| Frontend | Vue 3 (`<script setup>`) |
+| Estilos | CSS *scoped* por componente + Tailwind CSS 3 |
+| Build | Vite 8 + `laravel-vite-plugin` |
+| Rotas no front | Ziggy |
+| Testes | Pest 5 |
+| Banco | SQLite (apenas o scaffold padrão do Laravel) |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Estrutura
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+app/
+  Http/Middleware/HandleInertiaRequests.php  # root view "app" e props compartilhadas
+  Providers/AppServiceProvider.php
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+routes/web.php                # GET / → Inertia::render('Home')
 
-## Agentic Development
+resources/
+  views/app.blade.php         # template HTML raiz
+  css/app.css                 # fontes, Tailwind, variáveis e estilos globais
+  js/
+    app.js                    # bootstrap do Inertia + Ziggy
+    constants.js              # ⭐ todo o conteúdo do portfólio
+    Composables/
+      scrollToSection.js      # scroll suave por id
+      useScrollSpy.js         # seção ativa na navbar
+    Pages/Home.vue            # monta as seções na ordem da página
+    Components/Home/
+      NavBar.vue              # menu fixo, responsivo, com scrollspy
+      HeroSection.vue         # nome, cargo, resumo, CTAs e estatísticas
+      AboutSection.vue        # bio + links (GitHub, LinkedIn, e-mail, currículo)
+      ExperienceSection.vue   # timeline de experiências
+      SkillsSection.vue       # competências agrupadas por categoria
+      EducationSection.vue    # formação acadêmica + certificações
+      ContactSection.vue      # dados de contato + formulário
+      FooterSection.vue
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+public/
+  curriculo.pdf               # arquivo baixado pelo link "Currículo ↓"
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Fluxo de renderização
 
-## Contributing
+1. `GET /` → `Inertia::render('Home')`.
+2. `resources/views/app.blade.php` carrega `app.js` e o `.vue` da página via `@vite` + `@inertiaHead`.
+3. `app.js` inicializa o Inertia e resolve `Pages/*.vue`.
+4. `Pages/Home.vue` compõe as seções; toda a interatividade é client-side
+   (scroll suave, scrollspy, menu mobile e formulário).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## Conteúdo
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Praticamente todo o texto vem de **`resources/js/constants.js`**:
+`PROFILE`, `NAV_LINKS`, `STATS`, `EXPERIENCE`, `SKILLS`, `EDUCATION`,
+`CERTIFICATIONS` e `LINKS`.
 
-## Security Vulnerabilities
+Para atualizar dados pessoais, experiências, habilidades, formação ou links,
+edite esse arquivo — os componentes apenas consomem esses objetos.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Rodando localmente
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Requisitos: **PHP 8.3+**, **Composer**, **Node.js 20.19+** (ou 22.12+) e **npm**.
+O Vite 8 não funciona em versões antigas do Node — se usar `nvm`, rode
+`nvm use 24` (ou outra versão LTS atual) antes de instalar/buildar.
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+npm install
+```
+
+O projeto usa SQLite. O arquivo `database/database.sqlite` já existe; se precisar
+recriá-lo:
+
+```bash
+touch database/database.sqlite
+php artisan migrate
+```
+
+### Desenvolvimento
+
+Em um terminal:
+
+```bash
+php artisan serve
+```
+
+Em outro:
+
+```bash
+npm run dev
+```
+
+Ou os dois de uma vez (script do Composer):
+
+```bash
+composer dev
+```
+
+Acesse <http://localhost:8000>.
+
+> Enquanto o `npm run dev` estiver ativo, o Vite cria `public/hot` e o Laravel
+> passa a servir os assets do dev server. Ao parar o Vite o arquivo é removido
+> automaticamente. `public/hot` está no `.gitignore` e **não deve ir para produção**.
+
+### Build de produção
+
+```bash
+npm run build
+```
+
+Os assets são gerados em `public/build` (também ignorado pelo Git). Rode o build
+sempre que alterar `resources/` antes de publicar.
+
+---
+
+## Testes
+
+```bash
+php artisan test
+```
+
+ou
+
+```bash
+composer test
+```
+
+Os testes atuais são apenas os exemplos padrão do Laravel (`tests/Unit` e
+`tests/Feature`). A home ainda não possui cobertura.
+
+---
+
+## Observações
+
+- **Formulário de contato:** o envio é apenas visual em `ContactSection.vue` —
+  não há rota POST, validação nem envio de e-mail. Para torná-lo funcional, crie
+  uma rota/controller no Laravel e use o `useForm` do Inertia.
+- **Autenticação:** `laravel/sanctum` e `laravel/breeze` estão instalados, mas
+  não há rotas nem telas de autenticação. O modelo `User` e as migrations são
+  apenas o scaffold.
+- **Foto da seção "Sobre":** carregada de uma URL externa (Unsplash). Para não
+  depender de rede/CDN, coloque a imagem em `public/` e referencie o caminho local.
+- **Estilos:** as seções usam CSS *scoped* com cores fixas; a paleta do
+  `tailwind.config.js` (`primary: #c8ff00`, `background: #0a0a0a`, etc.) serve de
+  referência para o tema, mas as classes utilitárias são pouco utilizadas.
+
+---
+
+## Tema
+
+Tema escuro com acento verde-limão, inspirado em terminal:
+
+| Token | Valor |
+| --- | --- |
+| Fundo | `#0a0a0a` |
+| Card / secundário | `#111111` / `#1a1a1a` |
+| Texto | `#f0f0f0` |
+| Acento (primário) | `#c8ff00` |
+| Fonte títulos/labels | JetBrains Mono |
+| Fonte corpo | Inter |
