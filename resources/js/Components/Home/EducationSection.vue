@@ -27,14 +27,26 @@ import { CERTIFICATIONS, EDUCATION } from '@/constants';
                     <span class="block-count">{{ CERTIFICATIONS.length }}</span>
                 </h3>
                 <div class="certs">
-                    <div v-for="cert in CERTIFICATIONS" :key="cert.title" class="cert">
+                    <component
+                        :is="cert.url ? 'a' : 'div'"
+                        v-for="cert in CERTIFICATIONS"
+                        :key="cert.title"
+                        class="cert"
+                        :class="{ 'cert-link': cert.url }"
+                        :href="cert.url || undefined"
+                        :target="cert.url ? '_blank' : undefined"
+                        :rel="cert.url ? 'noopener' : undefined"
+                    >
                         <div class="cert-top">
                             <span class="cert-hours">{{ cert.hours }}</span>
                             <span class="cert-date">{{ cert.date }}</span>
                         </div>
                         <p class="cert-title">{{ cert.title }}</p>
-                        <p class="cert-issuer">Universidade Estácio de Sá</p>
-                    </div>
+                        <div class="cert-footer">
+                            <p class="cert-issuer">Universidade Estácio de Sá</p>
+                            <span v-if="cert.url" class="cert-cta">Ver certificado ↗</span>
+                        </div>
+                    </component>
                 </div>
             </div>
         </div>
@@ -144,13 +156,30 @@ import { CERTIFICATIONS, EDUCATION } from '@/constants';
 }
 
 .cert {
+    display: block;
     background-color: #0d0d0d;
     padding: 28px;
+    color: inherit;
+    text-decoration: none;
     transition: background-color 0.2s;
 }
 
 .cert:hover {
     background-color: #111;
+}
+
+.cert-link {
+    cursor: pointer;
+}
+
+.cert-link:focus-visible {
+    outline: 2px solid #c8ff00;
+    outline-offset: -2px;
+}
+
+.cert-link:hover .cert-title,
+.cert-link:hover .cert-cta {
+    color: #c8ff00;
 }
 
 .cert-top {
@@ -184,11 +213,29 @@ import { CERTIFICATIONS, EDUCATION } from '@/constants';
     color: #f0f0f0;
     line-height: 1.4;
     margin-bottom: 8px;
+    transition: color 0.2s;
+}
+
+.cert-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
 }
 
 .cert-issuer {
     font-size: 12px;
     color: #555;
+}
+
+.cert-cta {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #444;
+    white-space: nowrap;
+    transition: color 0.2s;
 }
 
 @media (max-width: 900px) {

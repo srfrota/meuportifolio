@@ -75,6 +75,10 @@ Praticamente todo o texto vem de **`resources/js/constants.js`**:
 Para atualizar dados pessoais, experiências, habilidades, formação ou links,
 edite esse arquivo — os componentes apenas consomem esses objetos.
 
+Cada item de `CERTIFICATIONS` aceita um campo opcional `url`. Quando preenchido,
+o card do certificado vira um link que abre em nova aba; com `url: null` ele é
+renderizado normalmente, sem link.
+
 ---
 
 ## Rodando localmente

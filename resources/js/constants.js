@@ -114,35 +114,44 @@ export const EDUCATION = [
     },
 ];
 
+// `url`: link público de verificação do certificado (ex.: PDF ou página da
+// Estácio). Deixe null enquanto não houver o link — o card continua sendo
+// renderizado, apenas sem ser clicável.
 export const CERTIFICATIONS = [
     {
         title: 'Desenvolvimento Rápido de Aplicações em Python para Cloud, IoT e Big Data',
         hours: '320h',
         date: 'Dez 2025',
+        url: 'https://certificado.estacio.br/ca9edde91931cb9d36ec86f',
     },
     {
         title: 'Programação de Algoritmos Escaláveis',
         hours: '240h',
         date: 'Jul 2025',
+        url: 'https://certificado.estacio.br/8d302a8fa409489e18c587a',
     },
     {
         title: 'Programação para Dispositivos Móveis',
         hours: '280h',
         date: 'Jul 2026',
+        url: 'https://certificado.estacio.br/fba6eeaa50976cf2376c86a',
     },
     {
         title: 'Programação de Sistemas de Informação',
         hours: '240h',
         date: 'Dez 2025',
+        url: 'https://certificado.estacio.br/53bcc8f4f623ac00c165afd',
     },
     {
         title: 'Programação para Internet',
         hours: '200h',
         date: 'Mai 2025',
+        url: 'https://certificado.estacio.br/a3ae4593b1c201787745c72',
     },
     {
         title: 'Desenvolvimento de Projetos Sociais',
         hours: '80h',
         date: 'Jul 2026',
+        url: 'https://certificado.estacio.br/e123c309494fcba35b557a7',
     },
 ];
